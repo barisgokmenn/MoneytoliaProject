@@ -1,0 +1,70 @@
+﻿<div class="container">
+    <div class="row">
+      <div class="col-md-12 mt-4">
+        <h1 class="text-center">Campaign List</h1>
+  
+        <div class="row">
+          <div class="col-sm-8">
+            <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search...">
+          </div>
+          
+          <div class="col-sm-4">
+            <select (change)="onChange($event.target.value)" style="float:right;" >
+              <option (click)="HighestRatedPoints()" [value]="1"> Highest Rated Points</option>
+              <option (click)="LowestRatedPoints()" [value]="2"> Lowest Rated Points </option>
+            </select>
+          </div>
+        </div>
+        
+        <table class="table table-bordered table-striped table-hover">
+          <thead>
+            <tr>
+              <th class="text-center">Point </th>
+              <th class="text-center">Name</th>
+              <th class="text-center">Details</th>
+              <th class="text-center">Date</th>
+              <th class="text-center">&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let campaign of campaigns | filter:searchText">
+              <td>{{ campaign.point }} <button type="button" class="btn btn-info btn-sm mr-2" (click)="CounterCampaignPoint(campaign)">Plus</button> <button type="button" class="btn btn-info btn-sm mr-2" (click)="MinusCampaignPoint(campaign)">Minus</button> </td>
+              <td>{{ campaign.name }}</td>
+              <td>{{ campaign.details }}</td>
+              <td>{{ campaign.date }}</td>
+              <td>
+                <button type="button" class="btn btn-info btn-sm mr-2" (click)="showEditCampaignForm(campaign)">Edit</button>
+  
+                <button type="button" class="btn btn-danger btn-sm" (click)="removeCampaign(campaign)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-success" (click)="showAddCampaignForm()">Add New Campaign</button>
+  
+        <div class="mt-4">
+          <form *ngIf="campaignForm">
+            <h2>Add New Campaign</h2>
+            <p>Name: <input type="text" name="name" [(ngModel)]="newCampaign.name" /></p>
+            <p>Details: <input type="text" name="details" [(ngModel)]="newCampaign.details" /></p>
+            <p>Date: <input type="text" name="date" [(ngModel)]="newCampaign.date" /></p>
+            <p>
+              <button type="button" class="btn btn-primary mr-2" (click)="saveCampaign(newCampaign)">Submit</button>
+              <button type="button" class="btn btn-warning" (click)="cancelNewCampaign()">Cancel</button>
+            </p>
+          </form>
+  
+          <form *ngIf="editCampaignForm">
+            <h2>Edit Campaign Details</h2>
+            <p>Name: <input type="text" name="name" [(ngModel)]="editedCampaign.name" /></p>
+            <p>Details: <input type="text" name="details" [(ngModel)]="editedCampaign.details" /></p>
+            <p>Date: <input type="text" name="date" [(ngModel)]="editedCampaign.date" /></p>
+            <p>
+              <button type="button" class="btn btn-primary mr-2" (click)="updateCampaign()">Submit</button>
+              <button type="button" class="btn btn-warning" (click)="cancelEdits()">Cancel</button>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
